@@ -1,7 +1,7 @@
 <?php
-	
 	ini_set('display_errors', 1);
-	error_reporting(~0);
+	ini_set('short_open_tag', 'on');
+	error_reporting(E_ALL & ~E_NOTICE);
 
 	/*$serverName	  = "localhost";
 	$userName	  = "root";
@@ -9,11 +9,20 @@
 	$dbName	  = "ophets";*/
 	
 	$serverName	  = "localhost";
-	$userName	  = "ophets";
-	$userPassword	  = "ophets2015";
+
+	if($_SERVER['HTTP_HOST'] == 'localhost' or $_SERVER['HTTP_HOST'] == '127.0.0.1'){
+		$userName	  = "root";
+		$userPassword	  = "12345678";
+	}else{
+		$userName	  = "ophets";
+		$userPassword	  = "ophets2015";
+	}
+
 	$dbName	  = "ophets";
-	mysql_query("SET NAMES utf8"); 
+	 
 	$con = mysqli_connect($serverName,$userName,$userPassword,$dbName);
+	mysqli_query($con, "SET SESSION sql_mode=''");
+	mysqli_set_charset($con, "utf8");
 
 	if (mysqli_connect_errno())
 	{
