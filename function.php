@@ -1,5 +1,5 @@
 <?php
-	session_start();
+	//session_start();
 	
 	function setLabel(){
 		$label['lbNew']	   =	"สร้าง";

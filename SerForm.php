@@ -490,7 +490,7 @@ if(!isset($_SESSION['UserID']))
 	 	var mode = document.getElementById('mode').value;
 		return(mode);
 	}	
-	
+
 	function checkRequiredField() {
 		if(document.getElementById('txtCusName').value == '' || document.getElementById('txtCusName').value == ' '){
  				alert("กรุณาใส่ชื่อคนไข้");
@@ -721,7 +721,7 @@ body {
         <td><?=$label['lbCost']?>:</td>
         <td colspan="2" nowrap="nowrap"><input name="txtCostType" type="text" id="txtCostType" 
         					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
-				           	 value="<?=$_SESSION['CostType']?>" size="15" />
+				           	 value="<?php echo $_SESSION['CostType'];?>" size="15" />
           <input type="image" name="btnGetCost" src="image/btnSearch.png" width="20px" 
                  onclick = "javascript: openListOfValue('','costtype','Select CostType From costtype WHERE (1=1)','CostType','ประเภทการจ่ายเงิน');
                  						return false;" id="btnGetCost"/></td>
