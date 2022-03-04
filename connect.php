@@ -1,13 +1,9 @@
 <?php
-	ini_set('display_errors', 1);
+date_default_timezone_set('Asia/Bangkok');
+
 	ini_set('short_open_tag', 'on');
 	error_reporting(E_ALL & ~E_NOTICE);
 
-	/*$serverName	  = "localhost";
-	$userName	  = "root";
-	$userPassword	  = "12345";
-	$dbName	  = "ophets";*/
-	
 	$serverName	  = "localhost";
 
 	if($_SERVER['HTTP_HOST'] == 'localhost' or $_SERVER['HTTP_HOST'] == '127.0.0.1'){

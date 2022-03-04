@@ -1,6 +1,9 @@
 <?php
 	session_start();
 	header('Content-Type: text/html; charset=utf-8');
+
+require_once './config.php';
+
 	/* function */
 	function setButton() {
         $button['search'] = " ค้นหา ";
@@ -105,8 +108,8 @@
 	if(!isset($_POST['btnSearch']) && !isset($_POST['btnExpand'])){
 		$_SESSION['table']		 = $_GET['table'];
 		$_SESSION['initSQL']	   = $_GET['initSQL'];
-		$_SESSION['columnname']	= split(",",$_GET['columnname']);
-		$_SESSION['headname'] 	= split(",",$_GET['headname']);
+		$_SESSION['columnname']	= explode(",",$_GET['columnname']);
+		$_SESSION['headname'] 	= explode(",",$_GET['headname']);
 		$mode					  = $_GET['mode'];
 		setInitSQL();
 	}
@@ -131,9 +134,10 @@
 ?>
 
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- include file CSS -->
 <link rel="stylesheet" href="jquery-ui-1.9.1.custom/css/redmond/jquery-ui-1.9.1.custom.css" />
@@ -191,7 +195,7 @@ h1 {
 	color: #000;
 }
 body {
-                background-image: url(image/sss.jpg);
+                background-image: url('image/sss.jpg');
                 background-color: #FFFFFF;
                 opacity:1;
             }
