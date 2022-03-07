@@ -19,16 +19,16 @@
     <script src="./jquery-ui-1.9.1.custom/js/jquery-ui-1.9.1.custom.js"></script>
     <script>
         fetch('https://jsonplaceholder.typicode.com/todos')
-  .then(response => response.json())
-  .then(function(json){
-      console.log(json);
-      var content = '';
-    json.map(function(item, index){
-        console.log(item.title);
-        content += "<li>"+item.title+"</li>";
-        document.getElementById("response").innerHTML = content;
-    });
-});
+            .then(response => response.json())
+            .then(function(json){
+                console.log(json);
+                var content = '';
+                json.map(function(item, index){
+                    console.log(item.title);
+                    content += "<li>"+item.title+"</li>";
+                    document.getElementById("response").innerHTML = content;
+                });
+            });
     </script>
 </body>
 </html>
