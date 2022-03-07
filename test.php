@@ -11,6 +11,15 @@
 <body>
     <h1>Hello World</h1>
 
+    <table border="1" width="100%">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>###</th>
+            </tr>
+        </thead>
+    </table>
+
     <ul id="response">
 
     </ul>
