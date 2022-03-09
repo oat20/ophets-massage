@@ -23,6 +23,8 @@ if(!isset($_SESSION['UserID']))
 	$_SESSION['DocName']   	   = $_POST['txtDocName'];
 	$_SESSION['DocNo']   	     = $_POST['txtDocNo'];
 	$_SESSION['Age']   	   	   = $_POST['txtAge'];
+
+	echo $_SESSION['CusName'].' '.$_SESSION['CostType'].' '.$_SESSION['DocName'];
 ?>
 
 <?php
@@ -370,12 +372,281 @@ if(!isset($_SESSION['UserID']))
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- include file CSS -->
 <link rel="stylesheet" href="jquery-ui-1.9.1.custom/css/redmond/jquery-ui-1.9.1.custom.css" />
 <link rel="stylesheet" href="css/style.css" />
+
+<!-- style sheet -->
+<style type="text/css">
+.disabled{
+	background-color:#ebebe4;
+	border: solid 1px #abadb3;
+	color:#545454;
+}
+.table{
+	border:1px solid black ;
+}
+.right{
+	padding-right:5px;
+}
+.left{
+	padding-left:5px;	
+}
+
+#lineItem{
+	height:150px;
+	width:850px;
+	overflow:scroll;
+	overflow-x:hidden
+}
+table th tr td{
+	vertical-align:middle;
+}
+input[type="text"]{
+	height:18px;               
+}
+.money{
+text-align:right	
+}
+h1 {
+	padding: 30px 0 0 45px;
+	font-size: 2.5em;
+	letter-spacing: 2px;
+	color: #000;
+}
+body {
+                background-image: url(image/sss.jpg);
+                background-color: #FFFFFF;
+                opacity:1;
+            }
+			#header {   
+			 	height: 134px;
+   			 	background: #034E85 url(images/header.jpg) no-repeat;
+				border:none;	
+			}
+			#middle {
+    background: #FBFBF5 url(images/middle.gif) repeat-y;
+	border:solid;
+}
+</style>
+
+<title>Service Form</title>
+</head>
+
+<body>
+<form id="formInvoice" name="formInvoice" method="post" action="">
+<div id="main">
+	<div id="้header">
+    <h1>&nbsp;</h1>
+    <!-------------------------- Menu -->
+	<table width="100%" border="none" cellpadding="0" cellspacing="0">
+    <tr>
+      <td align="center" class="border"><input name="btnNew" type="image" src="image/btnNew.png" 
+             onclick="javascript: if (checkDirty('NEW')) { setMode('NEW'); setDirtyBit('CLEAR'); return true;} else { return false;}" />
+        <div class="text_menu">
+          <label>
+            <?=$label['lbNew']?>
+            </label>
+        </div></td>
+      <?php if($mode == 'EDIT'){ ?>
+      <td align="center" class="border"><input name="btnEdit" type="image" src="image/btnDelete.png" 
+             onclick="javascript: if(getMode() == 'EDIT'){
+             							setDirtyBit('DIRTY');
+             							if(checkDirty('CANCEL')){
+                                            setMode('SAVE_EDIT'); 
+                                            setDirtyBit('CLEAR');
+                                        }
+                                    } 
+                                    else{ return false;}" />
+        <div class="text_menu">
+          <label>
+            <?=$label['lbCancel']?>
+          </label>
+        </div></td>
+<?php }else{ ?>   
+      <td align="center" class="border"><input name="btnEdit" type="image" src="image/btnEdit.png" 
+             onclick="javascript: if(checkDirty('EDIT')){ 
+             openListOfValue('EDIT','service','Select InvoiceNo, CusName, Cost From service WHERE Date = CURRENT_DATE()','InvoiceNo, CusName, Cost','เลขที่ใบเสร็จ, ชื่อผู้ป่วย, ราคา');  	 			        	   return false; } 
+             else {return false;}" />
+        <div class="text_menu">
+          <label>
+            <?=$label['lbEdit']?>
+          </label>
+        </div></td>
+      <td align="center" class="border"><input name="btnSave" type="image" src="image/1439380203_printer1.png" 
+             onclick="javascript: if(checkRequiredField() == true){
+             							if(getMode() == 'NEW'){
+                                           	setMode('SAVE_NEW'); 
+                                            setDirtyBit('CLEAR');
+                                            printInvoice();
+                                        } 
+                                   }
+                                   else{ return false;}" />
+        <!--<input name="btnSave" type="image" src="image/btnPrint.png" 
+             onclick="javascript: if(checkRequiredField() == true){
+             							if(getMode() == 'NEW'){
+                                           	setMode('SAVE_NEW'); 
+                                            setDirtyBit('CLEAR');
+                                        } 
+                                   }
+                                   else{ return false;}" />-->
+        <div class="text_menu">
+          <label>
+         <?=$label['lbPrint']?>
+            </label>  
+        </div></td>
+<?php }?>           
+      <td width="100%" align="right"><h1>ประเภทบริการ</h1></td>
+    </tr>
+    </table>
+	</div>
+
+    <!-------------------------- Header -->
+    <div id="middle" style="height:480px">
+    <div id="middle2">
+    <div id="middle3">
+      <table border="0" cellpadding="0" cellspacing="0">
+      <tr height="32">
+        <!-- Invoice No: read only -->
+        <td width="125"><label>
+          <?=$label['lbInvoiceNo']?>
+          </label>
+          :</td>
+        <td colspan="2"><input name="txtInvoiceNo" type="text" class="disabled" id="txtInvoiceNo"
+             value="<?=$_SESSION['InvoiceNo']?>" size="8" readonly="readonly"; /></td>
+        <!-- Invoice Date -->
+        <!-- onchange: set dirty bit -->
+        <td width="130"><label>
+          <?=$label['lbInvoiceDate']?>
+          </label>
+          :</td>
+        <td width="145"><input name="txtDate" type="text" class="disabled" id="txtDate"
+             value="<?=$_SESSION['Date']?>" size="8" readonly="readonly"; /></td>
+      </tr>
+      <tr height="32">
+        <td><?=$label['lbCusName']?>
+          :</td>
+        <td colspan="2" nowrap="nowrap"><input name="txtCusName" type="text" id="txtCusName" 
+        					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
+				           	 value="<?php echo $_SESSION['CusName'];?>" size="15" />
+          <input type="image" name="btnGetCustomer" src="image/btnSearch.png" width="20px" 
+                 onclick = "javascript: openListOfValue('','customer','Select CusNo, CusName, CusSurname, (DATEDIFF(NOW(),CusBirth)/365) AS Age, CustomerNo From Customer WHERE (1=1)','CusNo,CusName,CusSurname,Age,CustomerNo','รหัสผู้ป่วยเก่า,ชื่อ,นามสกุล,อายุ,รหัสผู้ป่วยใหม่');
+                 						return false;"/></td>
+        <td><?=$label['lbCost']?>:</td>
+        <td colspan="2" nowrap="nowrap"><input name="txtCostType" type="text" id="txtCostType" 
+        					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
+				           	 value="<?php echo $_SESSION['CostType'];?>" size="15" />
+          <input type="image" name="btnGetCost" src="image/btnSearch.png" width="20px" 
+                 onclick = "javascript: openListOfValue('','costtype','Select CostType From costtype WHERE (1=1)','CostType','ประเภทการจ่ายเงิน');
+                 						return false;" id="btnGetCost"/></td>
+        </tr>
+      <tr height="32">
+        <td><label>
+          <?=$label['lbSerType']?>
+        </label>
+:</td>
+        <td colspan="2" nowrap="nowrap"><input name="txtService" type="text" id="txtService" 
+        					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
+				           	 value="<?=$_SESSION['Service']?>" size="15" />
+          <input type="image" name="btnGetService" src="image/btnSearch.png" width="20px" 
+                 onclick = "javascript: openListOfValue('','servicetype','Select Service From servicetype WHERE (1=1)','Service','ประเภทบริการ');
+                 						return false;" id="btnGetService"/></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr height="32">
+        <td><label>
+          <?=$label['lbTime']?>
+        </label>
+:</td>
+        <td colspan="2" nowrap="nowrap"><select name="txtHour" id="txtHour" 
+        					 onchange="javascript: calExtendedPrice(); setDirtyBit('DIRTY');" 
+				           	 value="<?=$_SESSION['Hour']?>" >
+                  <option value = 1<?=$_SESSION['Hour'] == 1 ? ' selected="selected"' : '';?> >1</option>
+                             <option value = 2<?=$_SESSION['Hour'] == 2 ? ' selected="selected"' : '';?> >2</option>
+                  <option value = 3<?=$_SESSION['Hour'] == 3 ? ' selected="selected"' : '';?> >3</option>
+                             <option value = 4<?=$_SESSION['Hour'] == 4 ? ' selected="selected"' : '';?> >4</option>
+                             <option value = 0<?=$_SESSION['Hour'] == 0 ? ' selected="selected"' : '';?> >0</option>
+           
+							 </select>
+           ชั่วโมง
+          <select name="txtMin" id="txtMin" 
+        					 onchange="javascript: calExtendedPrice(); setDirtyBit('DIRTY');" 
+				           	 value="<?=$_SESSION['Min']?>" > 
+                  <option value = 15<?=$_SESSION['Min'] == 15 ? ' selected="selected"' : '';?> >15</option>
+                             <option value = 30<?=$_SESSION['Min'] == 30 ? ' selected="selected"' : '';?> >30</option>
+                  <option value = 45<?=$_SESSION['Min'] == 45 ? ' selected="selected"' : '';?> >45</option>
+                             <option value = 0<?=$_SESSION['Min'] == 0 ? ' selected="selected"' : '';?> >00</option>
+           
+							 </select>          นาที</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr height="32">
+        <td><label>
+          <?=$label['lbDocName']?>
+        </label>
+:</td>
+        <td colspan="2" nowrap="nowrap"><input name="txtDocName" type="text" id="txtDocName" 
+        					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
+				           	 value="<?=$_SESSION['DocName']?>" size="15" />
+          <input type="image" name="btnGetDocName" src="image/btnSearch.png" width="20px" 
+                 onclick = "javascript: openListOfValue('','doctor','Select DocName, DocSurName, DocNo From doctor WHERE (1=1)','DocName,DocSurName,DocNo','ชื่อ,นามสกุล,รหัสผู้บำบัด'); return false;" id="btnGetDocName"/><td><label>
+          <?=$label['lbAmountDue']?>
+          </label>
+          :</td>
+        <td><input name="txtCost" type="text" id="txtCost" class="disabled money" readonly="readonly" size="17	"
+                 value="<?php if($_SESSION['Cost'] != '') {print number_format($_SESSION['Cost'],2);}
+				 			  else{print number_format(0.0,2);} ?>"  
+                 onchange="javascript: calExtendedPrice(); setDirtyBit('DIRTY');" /></td>
+      </tr>
+      <tr height="32">
+        <!-- Customer Code -->
+        <!-- onchange: set dirty bit -->
+        <td>&nbsp;</td>
+        <td width="150" nowrap="nowrap">&nbsp;</td>
+        <td width="100">&nbsp;</td>
+        <!-- Customer Name -->
+        <!-- onchange: set dirty bit -->
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+
+      </table>
+      <table width="928" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="282" height="64">&nbsp;</td>
+          <td width="522">&nbsp;</td>
+          <td width="124"><p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p><br />
+              <br />
+            </p>
+            <p>
+             <a href="HomePage.php"><img src="image/Home.png"></a>
+          </p>
+            <p>&nbsp;</p></td>
+        </tr>
+      </table>
+      <p>
+    </div>      
+    </div>
+	</div><a href="logout.php">Logout</a>
+
+    <!-------------------------- Hidden Field -->
+	<input name="DirtyBit" id="DirtyBit" type="hidden" value="<?=$DirtyBit?>" />
+    <input name="mode" id="mode" type="hidden" value="<?=$mode?>" />
+    <input name="loaded" id="loaded" type="hidden" value="<?=$loaded?>" />
+    
+    <input name="txtBookNo" id="txtBookNo" type="hidden" value="<?=$_SESSION['BookNo']?>" />
+    <input name="txtCustomerNo" id="txtCustomerNo" type="hidden" value="<?=$_SESSION['CustomerNo']?>" />
+    <input name="txtDocNo" id="txtDocNo" type="hidden" value="<?=$_SESSION['DocNo']?>" />
+    <input name="txtAge" id="txtAge" type="hidden" value="<?=floor($_SESSION['Age'])?>" />
+    <input name="txtServiceNo" id="txtServiceNo" type="hidden" value="<?=$_SESSION['ServiceNo']?>" />
+</div>   
+</form>
 
 <!-- include file jQuery -->
 <script src="jquery-ui-1.9.1.custom/js/jquery-1.8.2.js"></script>
@@ -561,274 +832,5 @@ if(!isset($_SESSION['UserID']))
 	
 		
 </script>
-
-<!-- style sheet -->
-<style type="text/css">
-.disabled{
-	background-color:#ebebe4;
-	border: solid 1px #abadb3;
-	color:#545454;
-}
-.table{
-	border:1px solid black ;
-}
-.right{
-	padding-right:5px;
-}
-.left{
-	padding-left:5px;	
-}
-
-#lineItem{
-	height:150px;
-	width:850px;
-	overflow:scroll;
-	overflow-x:hidden
-}
-table th tr td{
-	vertical-align:middle;
-}
-input[type="text"]{
-	height:18px;               
-}
-.money{
-text-align:right	
-}
-h1 {
-	padding: 30px 0 0 45px;
-	font-size: 2.5em;
-	letter-spacing: 2px;
-	color: #000;
-}
-body {
-                background-image: url(image/sss.jpg);
-                background-color: #FFFFFF;
-                opacity:1;
-            }
-			#header {   
-			 	height: 134px;
-   			 	background: #034E85 url(images/header.jpg) no-repeat;
-				border:none;	
-			}
-			#middle {
-    background: #FBFBF5 url(images/middle.gif) repeat-y;
-	border:solid;
-}
-</style>
-
-<title>Service Form</title>
-</head>
-
-<body>
-<form id="formInvoice" name="formInvoice" method="post" action="">
-<div id="main">
-	<div id="้header">
-    <h1>&nbsp;</h1>
-    <!-------------------------- Menu -->
-	<table width="100%" border="none" cellpadding="0" cellspacing="0">
-    <tr>
-      <td align="center" class="border"><input name="btnNew" type="image" src="image/btnNew.png" 
-             onclick="javascript: if (checkDirty('NEW')) { setMode('NEW'); setDirtyBit('CLEAR'); return true;} else { return false;}" />
-        <div class="text_menu">
-          <label>
-            <?=$label['lbNew']?>
-            </label>
-        </div></td>
-      <?php if($mode == 'EDIT'){ ?>
-      <td align="center" class="border"><input name="btnEdit" type="image" src="image/btnDelete.png" 
-             onclick="javascript: if(getMode() == 'EDIT'){
-             							setDirtyBit('DIRTY');
-             							if(checkDirty('CANCEL')){
-                                            setMode('SAVE_EDIT'); 
-                                            setDirtyBit('CLEAR');
-                                        }
-                                    } 
-                                    else{ return false;}" />
-        <div class="text_menu">
-          <label>
-            <?=$label['lbCancel']?>
-          </label>
-        </div></td>
-<?php }else{ ?>   
-      <td align="center" class="border"><input name="btnEdit" type="image" src="image/btnEdit.png" 
-             onclick="javascript: if(checkDirty('EDIT')){ 
-             openListOfValue('EDIT','service','Select InvoiceNo, CusName, Cost From service WHERE Date = CURRENT_DATE()','InvoiceNo, CusName, Cost','เลขที่ใบเสร็จ, ชื่อผู้ป่วย, ราคา');  	 			        	   return false; } 
-             else {return false;}" />
-        <div class="text_menu">
-          <label>
-            <?=$label['lbEdit']?>
-          </label>
-        </div></td>
-      <td align="center" class="border"><input name="btnSave" type="image" src="image/1439380203_printer1.png" 
-             onclick="javascript: if(checkRequiredField() == true){
-             							if(getMode() == 'NEW'){
-                                           	setMode('SAVE_NEW'); 
-                                            setDirtyBit('CLEAR');
-                                            printInvoice();
-                                        } 
-                                   }
-                                   else{ return false;}" />
-        <!--<input name="btnSave" type="image" src="image/btnPrint.png" 
-             onclick="javascript: if(checkRequiredField() == true){
-             							if(getMode() == 'NEW'){
-                                           	setMode('SAVE_NEW'); 
-                                            setDirtyBit('CLEAR');
-                                        } 
-                                   }
-                                   else{ return false;}" />-->
-        <div class="text_menu">
-          <label>
-         <?=$label['lbPrint']?>
-            </label>  
-        </div></td>
-<?php }?>           
-      <td width="100%" align="right"><h1>ประเภทบริการ</h1></td>
-    </tr>
-    </table>
-	</div>
-
-    <!-------------------------- Header -->
-    <div id="middle" style="height:480px">
-    <div id="middle2">
-    <div id="middle3">
-      <table border="0" cellpadding="0" cellspacing="0">
-      <tr height="32">
-        <!-- Invoice No: read only -->
-        <td width="125"><label>
-          <?=$label['lbInvoiceNo']?>
-          </label>
-          :</td>
-        <td colspan="2"><input name="txtInvoiceNo" type="text" class="disabled" id="txtInvoiceNo"
-             value="<?=$_SESSION['InvoiceNo']?>" size="8" readonly="readonly"; /></td>
-        <!-- Invoice Date -->
-        <!-- onchange: set dirty bit -->
-        <td width="130"><label>
-          <?=$label['lbInvoiceDate']?>
-          </label>
-          :</td>
-        <td width="145"><input name="txtDate" type="text" class="disabled" id="txtDate"
-             value="<?=$_SESSION['Date']?>" size="8" readonly="readonly"; /></td>
-      </tr>
-      <tr height="32">
-        <td><?=$label['lbCusName']?>
-          :</td>
-        <td colspan="2" nowrap="nowrap"><input name="txtCusName" type="text" id="txtCusName" 
-        					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
-				           	 value="<?=$_SESSION['CusName']?>" size="15" />
-          <input type="image" name="btnGetCustomer" src="image/btnSearch.png" width="20px" 
-                 onclick = "javascript: openListOfValue('','customer','Select CusNo, CusName, CusSurname, (DATEDIFF(NOW(),CusBirth)/365) AS Age, CustomerNo From Customer WHERE (1=1)','CusNo,CusName,CusSurname,Age,CustomerNo','รหัสผู้ป่วยเก่า,ชื่อ,นามสกุล,อายุ,รหัสผู้ป่วยใหม่');
-                 						return false;"/></td>
-        <td><?=$label['lbCost']?>:</td>
-        <td colspan="2" nowrap="nowrap"><input name="txtCostType" type="text" id="txtCostType" 
-        					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
-				           	 value="<?php echo $_SESSION['CostType'];?>" size="15" />
-          <input type="image" name="btnGetCost" src="image/btnSearch.png" width="20px" 
-                 onclick = "javascript: openListOfValue('','costtype','Select CostType From costtype WHERE (1=1)','CostType','ประเภทการจ่ายเงิน');
-                 						return false;" id="btnGetCost"/></td>
-        </tr>
-      <tr height="32">
-        <td><label>
-          <?=$label['lbSerType']?>
-        </label>
-:</td>
-        <td colspan="2" nowrap="nowrap"><input name="txtService" type="text" id="txtService" 
-        					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
-				           	 value="<?=$_SESSION['Service']?>" size="15" />
-          <input type="image" name="btnGetService" src="image/btnSearch.png" width="20px" 
-                 onclick = "javascript: openListOfValue('','servicetype','Select Service From servicetype WHERE (1=1)','Service','ประเภทบริการ');
-                 						return false;" id="btnGetService"/></td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr height="32">
-        <td><label>
-          <?=$label['lbTime']?>
-        </label>
-:</td>
-        <td colspan="2" nowrap="nowrap"><select name="txtHour" id="txtHour" 
-        					 onchange="javascript: calExtendedPrice(); setDirtyBit('DIRTY');" 
-				           	 value="<?=$_SESSION['Hour']?>" >
-                  <option value = 1<?=$_SESSION['Hour'] == 1 ? ' selected="selected"' : '';?> >1</option>
-                             <option value = 2<?=$_SESSION['Hour'] == 2 ? ' selected="selected"' : '';?> >2</option>
-                  <option value = 3<?=$_SESSION['Hour'] == 3 ? ' selected="selected"' : '';?> >3</option>
-                             <option value = 4<?=$_SESSION['Hour'] == 4 ? ' selected="selected"' : '';?> >4</option>
-                             <option value = 0<?=$_SESSION['Hour'] == 0 ? ' selected="selected"' : '';?> >0</option>
-           
-							 </select>
-           ชั่วโมง
-          <select name="txtMin" id="txtMin" 
-        					 onchange="javascript: calExtendedPrice(); setDirtyBit('DIRTY');" 
-				           	 value="<?=$_SESSION['Min']?>" > 
-                  <option value = 15<?=$_SESSION['Min'] == 15 ? ' selected="selected"' : '';?> >15</option>
-                             <option value = 30<?=$_SESSION['Min'] == 30 ? ' selected="selected"' : '';?> >30</option>
-                  <option value = 45<?=$_SESSION['Min'] == 45 ? ' selected="selected"' : '';?> >45</option>
-                             <option value = 0<?=$_SESSION['Min'] == 0 ? ' selected="selected"' : '';?> >00</option>
-           
-							 </select>          นาที</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr height="32">
-        <td><label>
-          <?=$label['lbDocName']?>
-        </label>
-:</td>
-        <td colspan="2" nowrap="nowrap"><input name="txtDocName" type="text" id="txtDocName" 
-        					 onchange="javascript: setDirtyBit('DIRTY'); formInvoice.submit();" 
-				           	 value="<?=$_SESSION['DocName']?>" size="15" />
-          <input type="image" name="btnGetDocName" src="image/btnSearch.png" width="20px" 
-                 onclick = "javascript: openListOfValue('','doctor','Select DocName, DocSurName, DocNo From doctor WHERE (1=1)','DocName,DocSurName,DocNo','ชื่อ,นามสกุล,รหัสผู้บำบัด'); return false;" id="btnGetDocName"/><td><label>
-          <?=$label['lbAmountDue']?>
-          </label>
-          :</td>
-        <td><input name="txtCost" type="text" id="txtCost" class="disabled money" readonly="readonly" size="17	"
-                 value="<?php if($_SESSION['Cost'] != '') {print number_format($_SESSION['Cost'],2);}
-				 			  else{print number_format(0.0,2);} ?>"  
-                 onchange="javascript: calExtendedPrice(); setDirtyBit('DIRTY');" /></td>
-      </tr>
-      <tr height="32">
-        <!-- Customer Code -->
-        <!-- onchange: set dirty bit -->
-        <td>&nbsp;</td>
-        <td width="150" nowrap="nowrap">&nbsp;</td>
-        <td width="100">&nbsp;</td>
-        <!-- Customer Name -->
-        <!-- onchange: set dirty bit -->
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-
-      </table>
-      <table width="928" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td width="282" height="64">&nbsp;</td>
-          <td width="522">&nbsp;</td>
-          <td width="124"><p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p><br />
-              <br />
-            </p>
-            <p>
-             <a href="HomePage.php"><img src="image/Home.png"></a>
-          </p>
-            <p>&nbsp;</p></td>
-        </tr>
-      </table>
-      <p>
-    </div>      
-    </div>
-	</div><a href="logout.php">Logout</a>
-
-    <!-------------------------- Hidden Field -->
-	<input name="DirtyBit" id="DirtyBit" type="hidden" value="<?=$DirtyBit?>" />
-    <input name="mode" id="mode" type="hidden" value="<?=$mode?>" />
-    <input name="loaded" id="loaded" type="hidden" value="<?=$loaded?>" />
-    
-    <input name="txtBookNo" id="txtBookNo" type="hidden" value="<?=$_SESSION['BookNo']?>" />
-    <input name="txtCustomerNo" id="txtCustomerNo" type="hidden" value="<?=$_SESSION['CustomerNo']?>" />
-    <input name="txtDocNo" id="txtDocNo" type="hidden" value="<?=$_SESSION['DocNo']?>" />
-    <input name="txtAge" id="txtAge" type="hidden" value="<?=floor($_SESSION['Age'])?>" />
-    <input name="txtServiceNo" id="txtServiceNo" type="hidden" value="<?=$_SESSION['ServiceNo']?>" />
-</div>   
-</form>
 </body>
 </html>

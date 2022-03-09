@@ -1,5 +1,7 @@
 <?php
 session_start();			/* for use session */
+require_once './config.php';
+
 if(!isset($_SESSION['UserID']))
 	{
 		echo "Please Login!";
@@ -18,10 +20,11 @@ if(!isset($_SESSION['UserID']))
 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- include file CSS -->
 <link rel="stylesheet" href="jquery-ui-1.9.1.custom/css/redmond/jquery-ui-1.9.1.custom.css" />
