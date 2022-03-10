@@ -23,8 +23,6 @@ if(!isset($_SESSION['UserID']))
 	$_SESSION['DocName']   	   = $_POST['txtDocName'];
 	$_SESSION['DocNo']   	     = $_POST['txtDocNo'];
 	$_SESSION['Age']   	   	   = $_POST['txtAge'];
-
-	echo $_SESSION['CusName'].' '.$_SESSION['CostType'].' '.$_SESSION['DocName'];
 ?>
 
 <?php
