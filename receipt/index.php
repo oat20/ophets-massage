@@ -14,7 +14,6 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
     CustomerNo
     FROM customer
     ORDER BY CustomerNo
-    limit 100
 ");
 ?>
 <!DOCTYPE html>
@@ -30,12 +29,7 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-2">
-                <div class="list-group">
-                    <a href="./index.php" class="list-group-item">
-                        <i class="fa fa-print fa-fw"></i> พิมพ์ใบเสร็จ
-                    </a>
-                    <a href="./invoice.php" class="list-group-item"><i class="fa fa-ban fa-fw"></i> ยกเลิกใบเสร็จ</a>
-                </div>
+                <?php require_once './menu.inc.php';?>
             </div>
             <!-- col -->
             <div class="col-xs-12 col-sm-12 col-md-10">
@@ -45,7 +39,7 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover">
+                        <table class="table table-bordered table-striped table-hover" id="tbCustomer">
                             <thead>
                                 <th></th>
                                 <th>รหัสผู้ป่วยเก่า</th>
@@ -57,7 +51,7 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
                                 <?php
                                 while($rs = mysqli_fetch_assoc($sql)):
                                     echo '<tr>
-                                    <td><a href="./SerForm.php?id='.$rs['CustomerNo'].'" class="btn btn-danger">ออกใบเสร็จ</a></td>
+                                    <td><a href="./SerForm.php?txtCustomerNo='.$rs['CustomerNo'].'&txtCusName='.$rs['name'].'&txtAge='.$rs['age'].'" class="btn btn-danger">ออกใบเสร็จ</a></td>
                                     <td>'.$rs['CusNo'].'</td>
                                     <td>'.$rs['name'].'</td>
                                     <td>'.$rs['age'].'</td>
@@ -84,6 +78,12 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
         $(function(){
 
             $(".list-group a:first").addClass("active");
+
+            $('#tbCustomer').DataTable({
+                columnDefs: [
+                    { orderable: false, targets: 0 }
+                ]
+            });
 
         });
     </script>

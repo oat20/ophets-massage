@@ -5,3 +5,5 @@
     <link rel="stylesheet" href="<?php echo $cf_livesite;?>jquery-ui-1.9.1.custom/css/redmond/jquery-ui-1.9.1.custom.css" />
     <link rel="stylesheet" href="<?php echo $cf_livesite;?>css/style.css" />
     <link href="<?php echo $cf_livesite;?>fontawesome/css/all.min.css" rel="stylesheet">
+    <!-- datatable -->
+    <link href="<?php echo $cf_livesite;?>DataTables/DataTables-1.11.5/css/dataTables.bootstrap.min.css" rel="stylesheet">

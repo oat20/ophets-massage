@@ -11,9 +11,9 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
     service.Cost
     FROM service
     LEFT JOIN customer on (service.CustomerNo = customer.CustomerNo)
+    where service.Date = CURRENT_DATE()
     ORDER BY service.Date DESC,
     service.InvoiceNo DESC
-    LIMIT 100
 ");
 ?>
 <!DOCTYPE html>
@@ -29,12 +29,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-2">
-                <div class="list-group">
-                    <a href="./index.php" class="list-group-item">
-                        <i class="fa fa-print fa-fw"></i> พิมพ์ใบเสร็จ
-                    </a>
-                    <a href="./invoice.php" class="list-group-item"><i class="fa fa-ban fa-fw"></i> ยกเลิกใบเสร็จ</a>
-                </div>
+                <?php require_once './menu.inc.php';?>
             </div>
             <!-- col -->
             <div class="col-xs-12 col-sm-12 col-md-10">
@@ -81,7 +76,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
     <?php require_once './js.inc.php';?>
     <script>
         $(function(){
-            $(".list-group a:eq(1)").addClass("active");
+            $(".list-group a:eq(2)").addClass("active");
         });
     </script>
 </body>
