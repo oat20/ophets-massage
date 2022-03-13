@@ -582,7 +582,6 @@ $_SESSION['InvoiceNo'] 	 = $_POST['txtInvoiceNo'];
 
 	function getDocname(obj) {
 		var serviceType = obj.options[obj.selectedIndex].getAttribute('data-docname');
-		alert(serviceType);
 		document.getElementById("txtDocName").value = serviceType;
 	}
     </script>
