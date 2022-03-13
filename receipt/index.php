@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '../config.inc.php';
-require_once '../connect.php';
+require_once './config.inc.php';
+require_once './connect.php';
 require_once '../function.php';
 require_once './function.inc.php';
 

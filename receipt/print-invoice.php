@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '../config.inc.php';
-require_once '../connect.php';
+require_once './config.inc.php';
+require_once './connect.php';
 require_once './function.inc.php';
 
 $sql = mysqli_query($con, "SELECT service.InvoiceNo,
@@ -54,7 +54,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
                                 while($rs = mysqli_fetch_assoc($sql)):
                                     echo '<tr>
                                     <td><a href="../frmInvoice.php?InvoiceNo='.$rs['InvoiceNo'].'&BookNo='.$rs['BookNo'].'" class="btn btn-success" target="_blank">พิมพ์</a></td>
-                                    <td><a href="#?id='.$rs['InvoiceNo'].'" class="btn btn-warning">แก้ไข</a></td>
+                                    <td><a href="./EditSerForm.php?id='.$rs['InvoiceNo'].'" class="btn btn-warning">แก้ไข</a></td>
                                     <td>'.$rs['DateInvoice'].'</td>
                                     <td>'.$rs['InvoiceNo'].'</td>
                                     <td>'.$rs['CusName'].'</td>

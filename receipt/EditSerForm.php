@@ -366,7 +366,7 @@ $_SESSION['InvoiceNo'] 	 = $_POST['txtInvoiceNo'];
     <title>Service Form</title>
 </head>
 <body>
-    <?php echo page_navbar("", "./index.php");?>
+    <?php echo page_navbar("", "./print-invoice.php");?>
 
     <div class="container">
 

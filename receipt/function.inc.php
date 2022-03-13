@@ -17,7 +17,7 @@ function page_navbar($title="services", $link="#"){
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><i class="fa fa-calendar fa-fw"></i> '.date("d.m.Y").'</a></li>
+                    <li><a href="#"><i class="fa-solid fa-calendar-days fa-fw"></i> '.date("d.m.Y").'</a></li>
                 </ul>
             </div>
     
