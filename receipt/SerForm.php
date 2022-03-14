@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if(empty($_SESSION['UserID']) or $_SESSION['UserID'] == ''){
+    header('location: ../index.php');
+}
+
 require_once './config.inc.php';
 require_once './connect.php';
 require_once '../function.php';
@@ -374,7 +379,7 @@ $_SESSION['InvoiceNo'] 	 = $_POST['txtInvoiceNo'];
             <div class="panel-heading">
                 <h3 class="panel-title">ออกใบเสร็จ</h3>
             </div>
-            <form id="formInvoice" name="formInvoice" method="post" action="">
+            <form id="formInvoice" name="formInvoice" method="post" action="./SerForm-action.php">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6">
@@ -530,7 +535,7 @@ $_SESSION['InvoiceNo'] 	 = $_POST['txtInvoiceNo'];
 
                     <!-------------------------- Hidden Field -->
 	<input name="DirtyBit" id="DirtyBit" type="hidden" value="<?=$DirtyBit?>" />
-    <input name="mode" id="mode" type="hidden" value="<?=$mode?>" />
+    <input name="mode" id="mode" type="hidden" value="SAVE_NEW">
     <input name="loaded" id="loaded" type="hidden" value="<?=$loaded?>" />
     
     <input name="txtBookNo" id="txtBookNo" type="hidden" value="<?=$_SESSION['BookNo']?>" />
@@ -540,7 +545,7 @@ $_SESSION['InvoiceNo'] 	 = $_POST['txtInvoiceNo'];
                 </div>
                 <!-- body -->
                 <div class="panel-footer text-right">
-                    <button type="button" class="btn btn-danger btn-lg"><i class="fa fa-floppy-disk fa-fw"></i> ออกใบเสร็จ</button>
+                    <button type="submit" class="btn btn-danger btn-lg"><i class="fa fa-floppy-disk fa-fw"></i> ออกใบเสร็จ</button>
                 </div>
             </form>
         </div>

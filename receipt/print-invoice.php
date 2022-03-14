@@ -9,12 +9,12 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
     date_format(service.Date, '%d.%m.%Y') as DateInvoice,
     service.CusName,
     concat(customer.Point,' ',customer.CusName,' ',customer.CusSurname) as name,
-    service.Cost
+    service.Cost,
+    service.CustomerNo
     FROM service
     LEFT JOIN customer on (service.CustomerNo = customer.CustomerNo)
     where service.Date = CURDATE()
-    ORDER BY service.Date DESC,
-    service.InvoiceNo DESC
+    ORDER BY service.InvoiceNo DESC
 ");
 ?>
 <!DOCTYPE html>
@@ -43,7 +43,6 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <th></th>
-                                <th></th>
                                 <th>วันที่</th>
                                 <th>เลขที่ใบเสร็จ</th>
                                 <th>ลูกค้า</th>
@@ -52,9 +51,9 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
                             <tbody>
                                 <?php
                                 while($rs = mysqli_fetch_assoc($sql)):
+                                    $btnDisabled = ($rs['CustomerNo'] == 'C000000') ? "disabled" : "";
                                     echo '<tr>
-                                    <td><a href="../frmInvoice.php?InvoiceNo='.$rs['InvoiceNo'].'&BookNo='.$rs['BookNo'].'" class="btn btn-success" target="_blank">พิมพ์</a></td>
-                                    <td><a href="./EditSerForm.php?id='.$rs['InvoiceNo'].'" class="btn btn-warning">แก้ไข</a></td>
+                                    <td><a href="../frmInvoice.php?InvoiceNo='.$rs['InvoiceNo'].'&BookNo='.$rs['BookNo'].'" class="btn btn-success '.$btnDisabled.'" target="_blank">พิมพ์</a></td>
                                     <td>'.$rs['DateInvoice'].'</td>
                                     <td>'.$rs['InvoiceNo'].'</td>
                                     <td>'.$rs['CusName'].'</td>

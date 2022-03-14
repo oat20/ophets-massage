@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if(empty($_SESSION['UserID']) or $_SESSION['UserID'] == ''){
+    header('location: ../index.php');
+}
+
 require_once './config.inc.php';
 require_once './connect.php';
 require_once '../function.php';
@@ -23,7 +28,7 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
     <title>List of Customers</title>
 </head>
 <body>
-    <?php echo page_navbar("", "#");?>
+    <?php echo page_navbar("", "../HomePage.php");?>
 
     <div class="container-fluid">
 
