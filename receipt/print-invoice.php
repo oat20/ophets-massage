@@ -25,7 +25,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
     <title>List of Invoices</title>
 </head>
 <body>
-    <?php echo page_navbar("", "#");?>
+    <?php echo page_navbar("", "../HomePage.php");?>
 
     <div class="container-fluid">
 
