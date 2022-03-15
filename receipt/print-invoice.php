@@ -9,6 +9,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
     date_format(service.Date, '%d.%m.%Y') as DateInvoice,
     service.CusName,
     concat(customer.Point,' ',customer.CusName,' ',customer.CusSurname) as name,
+    service.Service,
     service.Cost,
     service.CustomerNo
     FROM service
@@ -46,6 +47,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
                                 <th>วันที่</th>
                                 <th>เลขที่ใบเสร็จ</th>
                                 <th>ลูกค้า</th>
+                                <th>รายการ</th>
                                 <th>ราคา</th>
                             </thead>
                             <tbody>
@@ -57,6 +59,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
                                     <td>'.$rs['DateInvoice'].'</td>
                                     <td>'.$rs['InvoiceNo'].'</td>
                                     <td>'.$rs['CusName'].'</td>
+                                    <td>'.$rs['Service'].'</td>
                                     <td>'.$rs['Cost'].'</td>
                                     </tr>';
                                 endwhile;
