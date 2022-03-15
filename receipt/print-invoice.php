@@ -13,7 +13,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
     service.CustomerNo
     FROM service
     LEFT JOIN customer on (service.CustomerNo = customer.CustomerNo)
-    where service.Date = CURDATE()
+    where date_format(service.Date, '%Y-%m') = date_format(CURDATE(), '%Y-%m')
     ORDER BY service.InvoiceNo DESC
 ");
 ?>
