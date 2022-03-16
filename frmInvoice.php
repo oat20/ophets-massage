@@ -19,7 +19,8 @@ require_once './config.php';
 //									FROM 	 customer C JOIN  service S JOIN costtype T JOIN price P  ON C.CustomerNo = S.CustomerNo 
 //									AND T.CostType = S.CostType AND P.Cost = S.Cost 
 //								WHERE	 InvoiceNo = ?  AND BookNo = ? "))
-	if ($stmt = $mysqli->prepare("SELECT	S.Date, S.Cost, C.ConNow, T.id, T.sub, C.CusNo, C.Point, C.CusName, C.CusSurname, P.CostName
+	if ($stmt = $mysqli->prepare("SELECT	S.Date, S.Cost, C.ConNow, T.id, T.sub, C.CusNo, C.Point, C.CusName, C.CusSurname, P.CostName,
+		S.Service
 									FROM 	 customer C JOIN  service S ON C.customerNo = S.CustomerNo JOIN costtype T ON S.CostType = T.CostType JOIN price P ON S.Cost = P.Cost
 									WHERE	 InvoiceNo = ?  AND BookNo = ? "))
 //	if ($stmt = $mysqli->prepare("SELECT	S.Date, S.Cost, T.id
@@ -32,7 +33,7 @@ require_once './config.php';
 			$stmt 	-> 	execute();
 	     // sleep(10);
 			/* Bind results to variables */
-		$stmt-> bind_result($Date, $Cost, $ConNow, $id, $sub, $CusNo, $Point, $CusName, $CusSurname, $CostName);
+		$stmt-> bind_result($Date, $Cost, $ConNow, $id, $sub, $CusNo, $Point, $CusName, $CusSurname, $CostName, $Service);
 		//$stmt-> bind_result($Date, $Cost, $id);
 		
 		/* fetch values */
@@ -48,6 +49,7 @@ require_once './config.php';
 			$CusName	   	  =	$CusName;
 			$CusSurname	   =	$CusSurname;
 			$CostName		 =	$CostName;
+			$Service = $Service;
 			
 		}
 		
@@ -419,6 +421,30 @@ else if($id == "3")
 		$pdf->Cell( 130  , 8 , iconv( 'UTF-8','cp874' , '                                                '."        ".$CostName  ),0,0 ,'L');
 
 }
+//เบิกไม่ได้ และเป็นค่าบริการอื่นๆ
+else if($id == '3' and $Service == 'อื่นๆ'){
+	$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 31,60 );
+		$pdf->Cell( 70  , 8 , iconv( 'UTF-8','cp874' , '  อื่นๆ' ) ,0,0,'L');
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 92,60 );
+		$pdf->Cell( 20  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,0 ,'C');
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 132,60 );
+		$pdf->Cell( 15  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,1 ,'C');
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 5,120 );
+		$pdf->Cell( 100  , 8 , iconv( 'UTF-8','cp874' , '  ' ),0,0 ,'R');
+
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 105,120 );
+		$pdf->Cell( 70  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,0 ,'C');
+
+
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 5,134 );
+		$pdf->Cell( 130  , 8 , iconv( 'UTF-8','cp874' , '                                                '."        ".$CostName  ),0,0 ,'L');
+}
 //เบิกได้ 200 บาท
 else if($id == '4'){
 
@@ -576,6 +602,7 @@ else if($id == '4'){
 	}
 
 }
+//end item in receipt
 
 		$pdf->SetFont('angsa','',14);
 		$pdf->setXY( 120,94 );

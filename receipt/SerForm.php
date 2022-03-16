@@ -545,6 +545,7 @@ $_SESSION['InvoiceNo'] 	 = $_POST['txtInvoiceNo'];
                 </div>
                 <!-- body -->
                 <div class="panel-footer text-right">
+					<a href="./index.php" class="btn btn-link"><i class="fa-solid fa-left-long fa-fw"></i> ย้อนกลับ</a>
                     <button type="submit" class="btn btn-danger btn-lg"><i class="fa fa-floppy-disk fa-fw"></i> ออกใบเสร็จ</button>
                 </div>
             </form>
