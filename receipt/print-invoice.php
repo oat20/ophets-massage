@@ -6,7 +6,7 @@ require_once './function.inc.php';
 
 $sql = mysqli_query($con, "SELECT service.InvoiceNo,
     service.BookNo,
-    date_format(service.Date, '%d.%m.%Y') as DateInvoice,
+    date_format(service.Date, '%d/%m/%Y') as DateInvoice,
     service.CusName,
     concat(customer.Point,' ',customer.CusName,' ',customer.CusSurname) as name,
     service.Service,
@@ -41,7 +41,7 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover">
+                        <table class="table table-bordered table-striped table-hover" id="tbPrintInvoice">
                             <thead>
                                 <th></th>
                                 <th>วันที่</th>
@@ -80,8 +80,14 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
 
     <?php require_once './js.inc.php';?>
     <script>
-        $(function(){
+        $(document).ready(function(){
             $(".list-group a:eq(1)").addClass("active");
+
+            $('#tbPrintInvoice').DataTable({
+                columnDefs: [
+                    { orderable: false, targets: 0 }
+                ]
+            });
         });
     </script>
 </body>

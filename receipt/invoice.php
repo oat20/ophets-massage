@@ -10,7 +10,7 @@ require_once './connect.php';
 require_once './function.inc.php';
 
 $sql = mysqli_query($con, "SELECT service.InvoiceNo,
-    date_format(service.Date, '%d.%m.%Y') as DateInvoice,
+    date_format(service.Date, '%d/%m/%Y') as DateInvoice,
     service.CusName,
     concat(customer.Point,' ',customer.CusName,' ',customer.CusSurname) as name,
     service.Cost,
@@ -126,6 +126,12 @@ $sql = mysqli_query($con, "SELECT service.InvoiceNo,
     <script>
         $(document).ready(function(){
             $(".list-group a:eq(2)").addClass("active");
+
+            $('#tbInvoiceCancel').DataTable({
+                columnDefs: [
+                    { orderable: false, targets: 0 }
+                ]
+            });
 
             $('#modalCancelInvoice').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
