@@ -121,15 +121,14 @@ if(!isset($_SESSION['UserID']))
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>
-                <!--<a href="SerForm.php"><img src="image/btnReport1.png"></a></td>-->
-                <a href="./receipt/"><img src="image/btnReport1.png"></a></td>
+                <a href="SerForm.php"><img src="image/btnReport1.png"></a></td>
                 <td>&nbsp;</td>
                 <td>
                  <a href="ReForm.php"><img src="image/btnReport.png"></td>
            	</tr>
            	<tr>
                 <td height="38">&nbsp;</td>
-                <td>&nbsp;</td>
+                <td><a href="./receipt/">ทดสอบระบบ</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
