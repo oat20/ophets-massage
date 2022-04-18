@@ -422,10 +422,10 @@ else if($id == "3")
 
 }
 //เบิกไม่ได้ และเป็นค่าบริการอื่นๆ
-else if($id == '3' and $Service == 'อื่นๆ'){
+else if($id == '3' and ($Service == 'อื่นๆ' or $Service == 'ค่าบริการ')){
 	$pdf->SetFont('angsa','',14);
 		$pdf->setXY( 31,60 );
-		$pdf->Cell( 70  , 8 , iconv( 'UTF-8','cp874' , '  อื่นๆ' ) ,0,0,'L');
+		$pdf->Cell( 70  , 8 , iconv( 'UTF-8','cp874' , '  ค่าบริการ' ) ,0,0,'L');
 		$pdf->SetFont('angsa','',14);
 		$pdf->setXY( 92,60 );
 		$pdf->Cell( 20  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,0 ,'C');

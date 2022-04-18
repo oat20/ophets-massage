@@ -45,7 +45,7 @@ $InvoiceNo2 = $InvoiceNo + 1;
 												  '".$_POST['txtDate']."', 
 												  '".$_POST['txtCusName']."',
 												  '".$_POST['txtCustomerNo']."',
-												  'อื่นๆ',
+												  'ค่าบริการ',
 												  '0',
 												  '".$_POST['txtHour']."',
 												  '".$_POST['txtMin']."',
