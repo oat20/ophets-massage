@@ -1,5 +1,4 @@
 <?php
-require_once './config.php';
 	require_once("fpdf/fpdf.php");
 	define('FPDF_FONTPATH','font/');
 	sleep(1);
