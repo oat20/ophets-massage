@@ -392,6 +392,33 @@ else if($id == "2")
 
 	  
 }
+//เบิกไม่ได้ และเป็นค่าบริการอื่นๆ
+else if($id == '3' and
+	($Service == 'อื่นๆ' 
+	or $Service == 'ค่าบริการ')
+){
+	$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 31,60 );
+		$pdf->Cell( 70  , 8 , iconv( 'UTF-8','cp874' , '  ค่าบริการ' ) ,0,0,'L');
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 92,60 );
+		$pdf->Cell( 20  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,0 ,'C');
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 132,60 );
+		$pdf->Cell( 15  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,1 ,'C');
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 5,120 );
+		$pdf->Cell( 100  , 8 , iconv( 'UTF-8','cp874' , '  ' ),0,0 ,'R');
+
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 105,120 );
+		$pdf->Cell( 70  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,0 ,'C');
+
+
+		$pdf->SetFont('angsa','',14);
+		$pdf->setXY( 5,134 );
+		$pdf->Cell( 130  , 8 , iconv( 'UTF-8','cp874' , '                                                '."        ".$CostName  ),0,0 ,'L');
+}
 //เบิกไม่ได้
 else if($id == "3")
 {
@@ -419,30 +446,6 @@ else if($id == "3")
 		$pdf->setXY( 5,134 );
 		$pdf->Cell( 130  , 8 , iconv( 'UTF-8','cp874' , '                                                '."        ".$CostName  ),0,0 ,'L');
 
-}
-//เบิกไม่ได้ และเป็นค่าบริการอื่นๆ
-else if($id == '3' and ($Service == 'อื่นๆ' or $Service == 'ค่าบริการ')){
-	$pdf->SetFont('angsa','',14);
-		$pdf->setXY( 31,60 );
-		$pdf->Cell( 70  , 8 , iconv( 'UTF-8','cp874' , '  ค่าบริการ' ) ,0,0,'L');
-		$pdf->SetFont('angsa','',14);
-		$pdf->setXY( 92,60 );
-		$pdf->Cell( 20  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,0 ,'C');
-		$pdf->SetFont('angsa','',14);
-		$pdf->setXY( 132,60 );
-		$pdf->Cell( 15  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,1 ,'C');
-		$pdf->SetFont('angsa','',14);
-		$pdf->setXY( 5,120 );
-		$pdf->Cell( 100  , 8 , iconv( 'UTF-8','cp874' , '  ' ),0,0 ,'R');
-
-		$pdf->SetFont('angsa','',14);
-		$pdf->setXY( 105,120 );
-		$pdf->Cell( 70  , 8 , iconv( 'UTF-8','cp874' , $Cost ),0,0 ,'C');
-
-
-		$pdf->SetFont('angsa','',14);
-		$pdf->setXY( 5,134 );
-		$pdf->Cell( 130  , 8 , iconv( 'UTF-8','cp874' , '                                                '."        ".$CostName  ),0,0 ,'L');
 }
 //เบิกได้ 200 บาท
 else if($id == '4'){
