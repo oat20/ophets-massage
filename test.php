@@ -1,54 +1,70 @@
+<?php
+require_once './receipt/config.inc.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="./bootstrap@3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./jquery-ui-1.9.1.custom/css/redmond/jquery-ui-1.9.1.custom.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-    <style>
-        body{
-            background-color: #fff;
-        }
-    </style>
+    <title></title>
+    <?php require_once './receipt/css.inc.php';?>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
 
-    <table class="table table-bordered table-striped" id="response">
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover" id="response">
         <thead>
             <tr>
-                <th>#</th>
-                <th>ข้อความ</th>
+                <th>Col0</th>
+                <th>Col1</th>
+                <th>Col2</th>
+                <th>Col3</th>
+                <th>Col4</th>
             </tr>
         </thead>
-        <tbody>
-
-        </tbody>
     </table>
+    </div>
 
     </div>
 
-    <script src="./jquery-ui-1.9.1.custom/js/jquery-1.8.2.js"></script>
-    <script src="./bootstrap@3/js/bootstrap.min.js"></script>
-    <script src="./jquery-ui-1.9.1.custom/js/jquery-ui-1.9.1.custom.js"></script>
+    <?php require_once './receipt/js.inc.php';?>
     <script>
-        fetch('https://jsonplaceholder.typicode.com/todos')
-            .then(response => response.json())
-            .then(function(json){
-                console.log(json);
-                var content = '';
-                json.map(function(item, index){
-                    console.log(item.title);
-                    content += "<tr>";
-                    content += "<td>"+index+"</td>";
-                    content += "<td>"+item.title+"</td>";
-                    content += "</tr>";
-                    document.getElementById("response").querySelector("tbody").innerHTML = content;
-                });
+        $(document).ready(function(){
+            $('#response').DataTable({
+                ajax: {
+                   url: './json/customers.php',
+                   dataSrc: 'data'
+                },
+                columns: [
+                    {
+                        data: null,
+                        //defaultContent: '<a href="" class="btn btn-danger">ออกใบเสร็จ</a>'
+                    },
+                    {data: 'cusno'},
+                    {data: 'name'},
+                    {data: 'age'},
+                    {data: 'customerno'}
+                ],
+                order: [
+                    [4, 'asc']
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        data: null,
+                        defaultContent: '<a href="" class="btn btn-danger">ออกใบเสร็จ</a>'
+                    }
+                ],
+                createdRow: function(row, data, index){
+                    //console.log(row);
+                    //console.log(data.customerno);
+                    //console.log(index);
+                    $('td', row).eq(0).html('<a href="./receipt/SerForm.php?txtCustomerNo='+data.customerno+'&txtCusName='+data.name+'&txtAge='+data.age+'" target="_blank" class="btn btn-danger">ออกใบเสร็จ</a>');
+                }
             });
+        });
     </script>
 </body>
 </html>

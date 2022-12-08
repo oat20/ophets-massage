@@ -12,7 +12,6 @@ require_once './function.inc.php';
 
 $setlabel = setLabel();
 
-/*
 $sql = mysqli_query($con, "SELECT CustomerNo,
     CusNo,
     concat(CusName,' ',CusSurname) as name,
@@ -21,7 +20,6 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
     FROM customer
     ORDER BY CustomerNo
 ");
-*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,10 +52,8 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
                                 <th><?php echo $setlabel['lbAge'];?></th>
                                 <th>รหัสผู้ป่วยใหม่</th>
                             </thead>
-                            <!--
                             <tbody>
                                 <?php
-                                /*
                                 while($rs = mysqli_fetch_assoc($sql)):
                                     echo '<tr>
                                     <td><a href="./SerForm.php?txtCustomerNo='.$rs['CustomerNo'].'&txtCusName='.$rs['name'].'&txtAge='.$rs['age'].'" class="btn btn-danger">ออกใบเสร็จ</a></td>
@@ -67,10 +63,8 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
                                     <td>'.$rs['CustomerNo'].'</td>
                                     </tr>';
                                 endwhile;
-                                */
                                 ?>
                             </tbody>
-                            -->
                         </table>
                         </div>
                     </div>
@@ -91,36 +85,9 @@ $sql = mysqli_query($con, "SELECT CustomerNo,
             $(".list-group a:first").addClass("active");
 
             $('#tbCustomer').DataTable({
-                ajax: {
-                   url: '../json/customers.php',
-                   dataSrc: 'data'
-                },
-                columns: [
-                    {
-                        data: null,
-                        //defaultContent: '<a href="" class="btn btn-danger">ออกใบเสร็จ</a>'
-                    },
-                    {data: 'cusno'},
-                    {data: 'name'},
-                    {data: 'age'},
-                    {data: 'customerno'}
-                ],
-                order: [
-                    [4, 'asc']
-                ],
                 columnDefs: [
-                    {
-                        targets: 0,
-                        data: null,
-                        defaultContent: '<a href="" class="btn btn-danger">ออกใบเสร็จ</a>'
-                    }
-                ],
-                createdRow: function(row, data, index){
-                    //console.log(row);
-                    //console.log(data.customerno);
-                    //console.log(index);
-                    $('td', row).eq(0).html('<a href="./SerForm.php?txtCustomerNo='+data.customerno+'&txtCusName='+data.name+'&txtAge='+data.age+'" class="btn btn-danger">ออกใบเสร็จ</a>');
-                }
+                    { orderable: false, targets: 0 }
+                ]
             });
 
         });
