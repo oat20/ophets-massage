@@ -128,7 +128,7 @@ if(!isset($_SESSION['UserID']))
            	</tr>
            	<tr>
                 <td height="38">&nbsp;</td>
-                <td><a href="./receipt/">ทดสอบระบบ</td>
+                <td></td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
@@ -140,4 +140,5 @@ if(!isset($_SESSION['UserID']))
         	</tr>
     	</table>
 	</body>
+    <h4 style="text-align: center;"><a href="./receipt/">ออกใบเสร็จรับเงิน</a></h4>
 </html>
